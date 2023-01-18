@@ -29,6 +29,9 @@ function requestHandler(req, res) {
     case "/subtract":
       handleSubtract(req, res);
       break;
+    case "/sum":
+      handleSum(req, res);
+      break;
     default:
       writeResponse(res, 400, { error: `Invalid path ${path}.` });
       break;
@@ -57,12 +60,27 @@ function handleSubtract(req, res) {
   writeResponse(res, 200, { result: difference });
 }
 
+function handleSum(req, res) {
+  const query = getQuery(req);
+
+  const nums = (query.num instanceof Array ? query.num : [query.num]);
+
+  /**
+   * Map and Reduce.
+   */
+  const sum = nums
+    .map((value) => { return parseInt(value) })
+    .reduce((total, current) => { return total + current }, 0);
+
+  writeResponse(res, 200, { result: sum });
+}
+
 function getQuery(req) {
   const urlParts = url.parse(req.url, true);
   return urlParts.query;
 }
 
 function writeResponse(res, status, object) {
-  res.writeHead(status, { "Content-Type": "text/html" });
+  res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(object));
 }
