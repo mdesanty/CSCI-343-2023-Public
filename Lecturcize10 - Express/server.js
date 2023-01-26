@@ -7,15 +7,15 @@ const app = express();
 /**
  * Express routing: https://expressjs.com/en/guide/routing.html
  */
-app.get("/add", handleAdd);
-app.get("/subtract", handleSubtract);
-app.get("/sum", handleSum);
+app.get("/add", add);
+app.get("/subtract", subtract);
+app.get("/sum", sum);
 
 const listener = app.listen(process.env.PORT, process.env.HOST, () => {
   console.log(`Server listening at ${listener.address().address}:${listener.address().port}`);
 });
 
-function handleAdd(req, res) {
+function add(req, res) {
   try {
     if (req.query.a === undefined || req.query.b === undefined)
       throw Error("Both a and b are required.");
@@ -36,7 +36,7 @@ function handleAdd(req, res) {
   }
 }
 
-function handleSubtract(req, res) {
+function subtract(req, res) {
   try {
     if (req.query.a === undefined || req.query.b === undefined)
       throw Error("Both a and b are required.");
@@ -57,7 +57,7 @@ function handleSubtract(req, res) {
   }
 }
 
-function handleSum(req, res) {
+function sum(req, res) {
   try {
     if (req.query.num === undefined)
       throw Error("At leaset two numbers are required.");
@@ -86,6 +86,6 @@ function handleSum(req, res) {
 }
 
 function writeResponse(res, status, object) {
-  res.writeHead(status, { "Content-Type": "text/html" });
+  res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(object));
 }
