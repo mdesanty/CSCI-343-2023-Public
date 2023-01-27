@@ -14,11 +14,11 @@ const sessionOptions = {
   }
 };
 
-/**
- * Middleware and the .use function.
- */
 app.use(session(sessionOptions));
 
+/**
+ * Using middleware again. This time writing our own.
+ */
 app.use((req, res, next) => {
   req.session.commandCount ||= 0;
   req.session.commandCount++;
@@ -46,11 +46,11 @@ function add(req, res) {
       throw Error("Both a and b must be numbers.");
 
     const sum = a + b;
-    writeResponse(res, 200, { result: sum, commandCount: req.session.commandCount });
+    res.json({ result: sum, commandCount: req.session.commandCount });
   }
   catch (e) {
     console.log(e.message);
-    writeResponse(res, 400, { error: e.message, commandCount: req.session.commandCount });
+    res.status(400).json({ error: e.message, commandCount: req.session.commandCount });
   }
 }
 
@@ -67,11 +67,11 @@ function subtract(req, res) {
 
     const difference = a - b;
 
-    writeResponse(res, 200, { result: difference, commandCount: req.session.commandCount });
+    res.json({ result: difference, commandCount: req.session.commandCount });
   }
   catch (e) {
     console.log(e.message);
-    writeResponse(res, 400, { error: e.message, commandCount: req.session.commandCount });
+    res.status(400).json({ error: e.message, commandCount: req.session.commandCount });
   }
 }
 
@@ -82,9 +82,6 @@ function sum(req, res) {
 
     const nums = (req.query.num instanceof Array ? req.query.num : [req.query.num]);
 
-    /**
-     * Map and Reduce.
-     */
     const sum = nums.map((value) => {
       const number = parseInt(value);
 
@@ -95,15 +92,10 @@ function sum(req, res) {
     })
     .reduce((total, current) => { return total + current; }, 0);
 
-    writeResponse(res, 200, { result: sum, commandCount: req.session.commandCount });
+    res.json({ result: sum, commandCount: req.session.commandCount });
   }
   catch (e) {
     console.log(e.message);
-    writeResponse(res, 400, { error: e.message, commandCount: req.session.commandCount });
+    res.status(400).json({ error: e.message, commandCount: req.session.commandCount });
   }
-}
-
-function writeResponse(res, status, object) {
-  res.writeHead(status, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(object));
 }
