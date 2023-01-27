@@ -65,8 +65,9 @@ function play(req, res) {
 }
 
 function instructions(req, res) {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.write("<h1>Number Guessing Game</h1>");
-  res.write("<p>Use /game/play to start a new game.</p>");
-  res.write("<p>Use /game/play?guess=num to make a guess.</p>");
+  res.send(
+    "<h1>Number Guessing Game</h1>" +
+    "<p>Use /game/play to start a new game.</p>" +
+    "<p>Use /game/play?guess=num to make a guess.</p>"
+  );
 }
