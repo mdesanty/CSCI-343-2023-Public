@@ -11,21 +11,23 @@ const listener = app.listen(process.env.PORT, process.env.HOST, () => {
 
 function add(req, res) {
   executeAdd(req.query.a, req.query.b)
-    .then((result) => { res.json({ result: result.sum }) })
+    .then((sum) => { res.json({ result: sum }) })
     .catch((error) => { res.status(400).json({ error: error.message }) });
 }
 
 function executeAdd(a, b) {
-  const additionPromise = new Promise((resolve, reject) => {
-    if (a === undefined || b === undefined)
-      reject(new Error('Both a and b are required.'));
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (a === undefined || b === undefined)
+        reject(new Error('Both a and b are required.'));
 
-    if (isNaN(a) || isNaN(b))
-      reject(new Error('Both a and b must be numbers.'));
+      if (isNaN(a) || isNaN(b))
+        reject(new Error('Both a and b must be numbers.'));
 
-    const sum = parseFloat(a) + parseFloat(b);
-    resolve({ sum });
+      const sum = parseFloat(a) + parseFloat(b);
+      resolve(sum);
+    })
   });
 
-  return additionPromise
+  return promise
 }
