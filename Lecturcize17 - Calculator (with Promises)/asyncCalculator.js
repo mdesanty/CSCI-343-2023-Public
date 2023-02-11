@@ -26,7 +26,7 @@ async function sum(num) {
       if (num === undefined)
         reject(new Error('The num param is required.'));
 
-      const nums = (num instanceof Array ? nums : [num]);
+      const nums = (num instanceof Array ? num : [num]);
       const sum = nums.map(i => {
         if (isNaN(i))
           reject(new Error('All num values must be numbers.'));
@@ -34,7 +34,6 @@ async function sum(num) {
         return parseFloat(i);
       }).reduce((sum, i) => sum + i, 0);
 
-      console.log(sum);
       resolve(sum);
     }, 0);
   });
