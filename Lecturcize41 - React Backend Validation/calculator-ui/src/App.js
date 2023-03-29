@@ -8,8 +8,7 @@ function App() {
   const x = useRef(null);
   const y = useRef(null);
   const [result, setResult] = useState('');
-  const [xIsInvalid, setXIsInvalid] = useState(false);
-  const [yIsInvalid, setYIsInvalid] = useState(false);
+  const [errors, setErrors] = useState({});
 
   function add(e) {
     e.preventDefault();
@@ -18,18 +17,11 @@ function App() {
     axios.get(`/add?x=${x.current.value}&y=${y.current.value}`)
       .then(
         (response) => {
-          setXIsInvalid(false);
-          setYIsInvalid(false);
+          setErrors({});
           setResult(response.data.result);
         },
         (error) => {
-          if (error.response.data.errors.x !== undefined)
-            setXIsInvalid(true);
-
-          if (error.response.data.errors.y !== undefined)
-            setYIsInvalid(true);
-
-          console.log("Bad stuff: " + error);
+          setErrors(error.response.data.errors);
         }
       );
   }
@@ -41,28 +33,20 @@ function App() {
     axios.get(`/subtract?x=${x.current.value}&y=${y.current.value}`)
       .then(
         (response) => {
-          setXIsInvalid(false);
-          setYIsInvalid(false);
+          setErrors({});
           setResult(response.data.result);
         },
         (error) => {
-          if (error.response.data.errors.x !== undefined)
-            setXIsInvalid(true);
-
-          if (error.response.data.errors.y !== undefined)
-            setYIsInvalid(true);
-
-          console.log("Bad stuff: " + error);
+          setErrors(error.response.data.errors);
         }
       );
   }
 
   function clear(e) {
     e.preventDefault();
+    setErrors({});
     x.current.value = '';
     y.current.value = '';
-    setXIsInvalid(false);
-    setYIsInvalid(false);
     setResult('');
   }
 
@@ -73,14 +57,14 @@ function App() {
         <Form>
           <Form.Group className='mb-3 calculator-number'>
             <Form.Label>First Number (x)</Form.Label>
-            <Form.Control className={xIsInvalid ? 'is-invalid' : '' } type='number' ref={x} placeholder='Enter a number' onChange={ () => setXIsInvalid(false) }></Form.Control>
+            <Form.Control className={errors.x !== undefined ? 'is-invalid' : '' } type='number' ref={x} placeholder='Enter a number' onChange={ () => setErrors({ ...errors, x: undefined}) }></Form.Control>
             <div className="invalid-feedback">
               Must be a number.
             </div>
           </Form.Group>
           <Form.Group className='mb-4 calculator-number'>
             <Form.Label>Second Number (y)</Form.Label>
-            <Form.Control className={yIsInvalid ? 'is-invalid' : ''} type='number' ref={y} placeholder='Enter a number' onChange={() => setYIsInvalid(false)}></Form.Control>
+            <Form.Control className={errors.y !== undefined ? 'is-invalid' : ''} type='number' ref={y} placeholder='Enter a number' onChange={() => setErrors({ ...errors, y: undefined})}></Form.Control>
             <div className="invalid-feedback">
               Must be a number.
             </div>
