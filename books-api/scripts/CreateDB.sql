@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS books CASCADE;
 CREATE TABLE books (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255),
-  author_id INT REFERENCES authors(id)
+  author_id INT
 );
 
 DO $$
