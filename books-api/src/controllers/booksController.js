@@ -48,7 +48,7 @@ function show(req, res) {
 function create(req, res) {
   const book = req.body;
 
-  pgClient.query('INSERT INTO books (title, author_id) VALUES ($1, $2) RETURNING id', [book.name, book.author_id])
+  pgClient.query('INSERT INTO books (title, author_id) VALUES ($1, $2) RETURNING id', [book.title, book.author_id])
     .then(results => {
       res.location(`/books/${results.rows[0].id}`);
       res.json({ message: 'Book created successfully' });
