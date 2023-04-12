@@ -59,14 +59,14 @@ function App() {
             <Form.Label>First Number (x)</Form.Label>
             <Form.Control className={errors.x !== undefined ? 'is-invalid' : '' } type='number' ref={x} placeholder='Enter a number' onChange={ () => setErrors({ ...errors, x: undefined}) }></Form.Control>
             <div className="invalid-feedback">
-              Must be a number.
+              {errors.x}
             </div>
           </Form.Group>
           <Form.Group className='mb-4 calculator-number'>
             <Form.Label>Second Number (y)</Form.Label>
             <Form.Control className={errors.y !== undefined ? 'is-invalid' : ''} type='number' ref={y} placeholder='Enter a number' onChange={() => setErrors({ ...errors, y: undefined})}></Form.Control>
             <div className="invalid-feedback">
-              Must be a number.
+              {errors.y}
             </div>
           </Form.Group>
           <Form.Group className='mb-3'>
