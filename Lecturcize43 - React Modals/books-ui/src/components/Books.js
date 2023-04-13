@@ -52,7 +52,7 @@ function Books() {
             {modalBook.title}
           </div>
           <div>
-            <span className='text-muted'>by {modalBook.author.title} {modalBook.author.first_name} {modalBook.author.middle_name} {modalBook.author.last_name}</span>
+            <span className='text-muted'>by {modalBook.author?.title} {modalBook.author?.first_name} {modalBook.author?.middle_name} {modalBook.author?.last_name}</span>
           </div>
         </Modal.Body>
         <Modal.Footer>
