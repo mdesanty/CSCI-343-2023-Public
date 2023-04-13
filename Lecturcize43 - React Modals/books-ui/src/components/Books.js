@@ -59,7 +59,6 @@ function Books() {
           <Button variant='secondary' onClick={closeModal}>Close</Button>
         </Modal.Footer>
       </Modal>
-
       <div>
         <Row>
           <Col>
